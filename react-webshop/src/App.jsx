@@ -8,11 +8,12 @@ import Webshop from './pages/Webshop';
 import TermekReszletek from './pages/TermekReszletek';
 import Checkout from './pages/Checkout';
 import AuthPage from './pages/AuthPage';
-
-// --- ITT VOLT A HIÁNYZÓ RÉSZ: Be kell importálni a fájlokat, hogy használhassa őket a lenti Route! ---
 import Rolunk from './pages/Rolunk';      
 import Kapcsolat from './pages/Kapcsolat'; 
-// ----------------------------------------------------------------------------------------------------
+
+// --- ÚJ RÉSZ: A Tervező importálása ---
+import Tervezo from './pages/Tervezo';
+// --------------------------------------
 
 // Context-ek (Az Agyak)
 import { CartProvider } from './CartContext'; 
@@ -34,10 +35,12 @@ function App() {
             <Route path="/termek/:id" element={<TermekReszletek />} />
             <Route path="/penztar" element={<Checkout />} />
             <Route path="/login" element={<AuthPage />} />
-            
-            {/* Most már működni fognak, mert fent beimportáltuk őket: */}
             <Route path="/rolunk" element={<Rolunk />} />
             <Route path="/kapcsolat" element={<Kapcsolat />} />
+            
+            {/* --- ÚJ RÉSZ: A Tervező útvonala --- */}
+            <Route path="/tervezo" element={<Tervezo />} />
+            
           </Routes>
           
           <Footer />

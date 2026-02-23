@@ -18,16 +18,12 @@ export default function Webshop() {
         if (Array.isArray(dbData) && dbData.length > 0) {
           // --- HIBRID TRÜKK: Összefűzzük a DB adatokat a helyi képekkel/méretekkel ---
           const mergedProducts = dbData.map(dbItem => {
-             // Megnézzük, hogy kisbetűs vagy nagybetűs-e az ID a C# miatt
              const dbId = dbItem.id || dbItem.Id; 
-             
-             // Megkeressük a régi JS fájlban a cipőt az ID alapján
              const localItem = backupProducts.find(p => p.id === dbId);
              
              return {
                  ...dbItem,
-                 id: dbId, // Szabványosítjuk az ID-t
-                 // Ha megtalálja a régi fájlban, beteszi a képeit és méreteit, különben ad egy alapértelmezettet
+                 id: dbId, 
                  images: localItem && localItem.images ? localItem.images : ['/img/placeholder.webp'],
                  sizes: localItem && localItem.sizes ? localItem.sizes : ['40', '41', '42', '43', '44']
              };
@@ -48,7 +44,6 @@ export default function Webshop() {
   const filteredProducts = products.filter((product) => {
     if (activeFilter === 'Összes') return true;
     
-    // Itt már biztosan a hibrid méreteket használjuk
     let sizes = product.sizes || [];
     if (typeof sizes === 'string') {
         sizes = sizes.split(',').map(s => s.trim());
@@ -66,7 +61,10 @@ export default function Webshop() {
     <section className="webshop-container">
       <div className="section-title" style={{ textAlign: 'center', marginBottom: '40px' }}>
         <h2 style={{ fontSize: '3rem', marginBottom: '20px' }}>Webshop</h2>
-        <div className="filter-buttons" style={{ display: 'flex', justifyContent: 'center', gap: '15px' }}>
+        
+        {/* --- SZŰRŐ GOMBOK ÉS A TERVEZŐ GOMB --- */}
+        <div className="filter-buttons" style={{ display: 'flex', justifyContent: 'center', gap: '15px', flexWrap: 'wrap' }}>
+          
           {['Összes', 'Sneakerek', 'Ruházat'].map((category) => (
              <button 
                 key={category}
@@ -77,12 +75,30 @@ export default function Webshop() {
                 {category}
               </button>
           ))}
+
+          {/* ÚJ: Tervezd meg a sajátod gomb (Most már a webshop kék színével!) */}
+          <Link to="/tervezo" style={{ textDecoration: 'none' }}>
+            <button style={{
+                padding: '10px 25px', 
+                borderRadius: '25px', 
+                border: 'none', 
+                backgroundColor: '#00d2ff', // Az oldalhoz illeszkedő neonkék
+                color: '#000', // Fekete szöveg a tökéletes kontrasztért
+                cursor: 'pointer', 
+                fontWeight: 'bold', 
+                fontSize: '1rem', 
+                transition: '0.3s',
+                boxShadow: '0 4px 15px rgba(0, 210, 255, 0.4)' // Kék ragyogás
+            }}>
+                ✨ Tervezd meg a sajátod!
+            </button>
+          </Link>
+
         </div>
       </div>
 
       <div className="product-grid">
         {filteredProducts.map((shoe) => {
-            // Mivel a hibrid trükk garantálja az images tömböt, ezt már nagyon egyszerű lekérni:
             const imageSrc = shoe.images[0];
 
             return (
@@ -112,5 +128,6 @@ export default function Webshop() {
   );
 }
 
+// Stílusok a szűrőgombokhoz
 const inactiveStyle = { padding: '10px 25px', borderRadius: '25px', border: '1px solid #333', backgroundColor: 'transparent', color: '#fff', cursor: 'pointer', fontWeight: 'bold', fontSize: '1rem', transition: '0.3s' };
 const activeStyle = { ...inactiveStyle, backgroundColor: '#00d2ff', color: '#000', border: '1px solid #00d2ff' };

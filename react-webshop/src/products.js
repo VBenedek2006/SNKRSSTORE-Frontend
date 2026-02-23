@@ -3,7 +3,7 @@ export const products = [
     id: 1,
     name: "Nike Air Force 1 07 Triple White",
     price: 40000,
-    images: ["/img/termek1.webp", "/img/termek1.2.webp", "/img/termek1.3.webp", "/img/termek1.4.webp"],
+    images: ["https://i.imgur.com/zRAh8Lj.jpeg"],
     sizes: ["40", "41", "42"],
     description: "A Nike Air Force 1 07 Triple White sneaker egy igazán egyszerű, de sikkes darab..."
   },
