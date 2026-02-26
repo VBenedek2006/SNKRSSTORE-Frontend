@@ -11,17 +11,17 @@ export default function Rolunk() {
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '40px' }}>
-        <div style={{ background: '#f9f9f9', padding: '30px', borderRadius: '10px' }}>
+        <div style={{ background: '#5d5d5dff', padding: '30px', borderRadius: '10px' }}>
           <h3>100% Eredetiség</h3>
-          <p style={{ color: '#777' }}>Minden egyes terméket szakértőink vizsgálnak át.</p>
+          <p style={{ color: '#ffffffff' }}>Minden egyes terméket szakértőink vizsgálnak át.</p>
         </div>
-        <div style={{ background: '#f9f9f9', padding: '30px', borderRadius: '10px' }}>
+        <div style={{ background: '#5d5d5dff', padding: '30px', borderRadius: '10px' }}>
           <h3>Limitált Kiadások</h3>
-          <p style={{ color: '#777' }}>A legritkább kollekciók egy helyen.</p>
+          <p style={{ color: '#ffffffff' }}>A legritkább kollekciók egy helyen.</p>
         </div>
-        <div style={{ background: '#f9f9f9', padding: '30px', borderRadius: '10px' }}>
+        <div style={{ background: '#5d5d5dff', padding: '30px', borderRadius: '10px' }}>
           <h3>Gyors Szállítás</h3>
-          <p style={{ color: '#777' }}>Raktáron lévő termékeinket azonnal küldjük.</p>
+          <p style={{ color: '#ffffffff' }}>Raktáron lévő termékeinket azonnal küldjük.</p>
         </div>
       </div>
 
