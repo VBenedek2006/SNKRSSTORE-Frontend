@@ -21,6 +21,7 @@ export default function Checkout() {
         zip: '',
         city: '',
         phone: '',
+        cardName: '',   // Új: Kártyabirtokos neve
         cardNumber: '',
         cardExpiry: '',
         cardCvc: ''
@@ -28,6 +29,30 @@ export default function Checkout() {
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    // --- BANKKÁRTYA VALIDÁLÓ FÜGGVÉNYEK ---
+    const handleNameChange = (e) => {
+        const value = e.target.value.replace(/[^a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ\s-]/g, '');
+        handleChange({ target: { name: 'cardName', value } });
+    };
+
+    const handleCardNumberChange = (e) => {
+        const value = e.target.value.replace(/\D/g, '').slice(0, 16);
+        handleChange({ target: { name: 'cardNumber', value } });
+    };
+
+    const handleExpiryChange = (e) => {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length >= 3) {
+            value = `${value.slice(0, 2)}/${value.slice(2, 4)}`;
+        }
+        handleChange({ target: { name: 'cardExpiry', value } });
+    };
+
+    const handleCvcChange = (e) => {
+        const value = e.target.value.replace(/\D/g, '').slice(0, 3);
+        handleChange({ target: { name: 'cardCvc', value } });
     };
 
     // --- RENDELÉS LEADÁSA (C# Backendhez kötve) ---
@@ -50,7 +75,8 @@ export default function Checkout() {
         }
 
         if (paymentMethod === 'bankcard') {
-            if (!formData.cardNumber || !formData.cardExpiry || !formData.cardCvc) {
+            // Itt is ellenőrizzük a nevet
+            if (!formData.cardName || !formData.cardNumber || !formData.cardExpiry || !formData.cardCvc) {
                 alert("Kérlek, add meg a bankkártya adatait!");
                 return;
             }
@@ -100,7 +126,7 @@ export default function Checkout() {
                 throw new Error("Hiba a rendelés mentésekor!");
             }
 
-            // --- SIKERES BEFEJEZÉS ---
+            // --- SIKERES MEGRENDELÉS ---
             alert("Sikeres rendelés! Köszönjük a vásárlást.");
             clearCart(); 
             navigate('/');
@@ -164,11 +190,14 @@ export default function Checkout() {
                             {paymentMethod === 'bankcard' && (
                                 <div style={{ padding: '15px', background: '#fcfcfc', border: '1px solid #ddd', borderRadius: '5px', marginTop: '-5px', marginBottom: '10px' }}>
                                     <div className="form-row">
-                                        <input type="text" name="cardNumber" placeholder="Kártyaszám" className="full-width" value={formData.cardNumber} onChange={handleChange} />
+                                        <input type="text" name="cardName" placeholder="Kártyabirtokos neve" className="full-width" value={formData.cardName} onChange={handleNameChange} />
                                     </div>
                                     <div className="form-row">
-                                        <input type="text" name="cardExpiry" placeholder="Lejárati dátum (MM/YY)" className="half-width" value={formData.cardExpiry} onChange={handleChange} />
-                                        <input type="text" name="cardCvc" placeholder="CVC" className="half-width" value={formData.cardCvc} onChange={handleChange} />
+                                        <input type="text" name="cardNumber" placeholder="Kártyaszám" className="full-width" value={formData.cardNumber} onChange={handleCardNumberChange} />
+                                    </div>
+                                    <div className="form-row">
+                                        <input type="text" name="cardExpiry" placeholder="Lejárati dátum (MM/YY)" className="half-width" value={formData.cardExpiry} onChange={handleExpiryChange} />
+                                        <input type="text" name="cardCvc" placeholder="CVC" className="half-width" value={formData.cardCvc} onChange={handleCvcChange} />
                                     </div>
                                 </div>
                             )}
